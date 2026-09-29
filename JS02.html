@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lê Quang Dương - Trang giới thiệu cá nhân</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        :root {
+            --bg-body: #f0f4f8;
+            --bg-card: #ffffff;
+            --text-color: #1a252c;
+            --primary-color: #1e4273;
+            --accent-color: #e2a049;
+            --border-color: #cbd5e1;
+            --subtext-color: #64748b;
+        }
+
+        body.dark-mode {
+            --bg-body: #0f172a;
+            --bg-card: #1e293b;
+            --text-color: #f1f5f9;
+            --primary-color: #38bdf8;
+            --accent-color: #f59e0b;
+            --border-color: #334155;
+            --subtext-color: #94a3b8;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-color);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .nav-logo {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 14px;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-color);
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background-color: var(--text-color);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        /* HEADER BG CAR */
+        .bg-car-header {
+            width: 100%;
+            background: linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.65)), 
+                        url('anh5.jpg') center/cover no-repeat;
+            padding: 100px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .header-content {
+            width: 100%;
+            padding-left: 40px; 
+            padding-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; 
+            gap: 25px;
+            text-align: left;
+        }
+
+        .header-avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #ffffff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+        }
+
+        .header-text h1 {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #ffffff;
+        }
+
+        .header-text h3 {
+            font-size: 14px;
+            font-weight: 600;
+            color: #f59e0b;
+            margin-bottom: 10px;
+        }
+
+        .header-text p {
+            font-size: 13.5px;
+            color: #e2e8f0;
+            max-width: 800px;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            align-items: start;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 24px 28px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border-color);
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .card h2 {
+            font-size: 18px;
+            color: var(--primary-color);
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .card h4 {
+            font-size: 14px;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .info-list p {
+            font-size: 14px;
+            margin-bottom: 12px;
+            color: var(--text-color);
+        }
+
+        .grid-subcol {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        ul { list-style: none; }
+        ul li {
+            position: relative;
+            padding-left: 18px;
+            font-size: 13.5px;
+            margin-bottom: 8px;
+            color: var(--text-color);
+        }
+        ul li::before {
+            content: "›";
+            position: absolute;
+            left: 0;
+            top: -2px;
+            color: var(--accent-color);
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        ol {
+            padding-left: 20px;
+            font-size: 13.5px;
+            color: var(--text-color);
+        }
+        ol li { margin-bottom: 8px; }
+
+        a {
+            color: var(--primary-color);
+            text-decoration: underline;
+            font-weight: 600;
+        }
+        a:hover { color: var(--accent-color); }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            aspect-ratio: 4/3;
+            background-color: #f1f5f9;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover img { transform: scale(1.05); }
+
+        .gallery-item .caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: #ffffff;
+            font-size: 11px;
+            padding: 15px 8px 6px;
+            text-align: center;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 6px 12px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-body);
+            color: var(--text-color);
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        .project-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .project-card {
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-body);
+            transition: transform 0.2s;
+        }
+
+        .project-card:hover { transform: translateY(-2px); }
+
+        .project-card h3 {
+            font-size: 14px;
+            color: var(--primary-color);
+            margin-bottom: 4px;
+        }
+
+        .project-card p {
+            font-size: 12.5px;
+            margin-bottom: 6px;
+            color: var(--text-color);
+        }
+
+        .tag {
+            display: inline-block;
+            background: var(--accent-color);
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12.5px;
+            text-align: center;
+        }
+
+        .schedule-table th, .schedule-table td {
+            border: 1px solid var(--border-color);
+            padding: 8px 4px;
+            vertical-align: middle;
+        }
+
+        .schedule-table th {
+            background-color: #2b70b6;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        .schedule-table td { color: var(--subtext-color); }
+
+        .schedule-table td.has-class {
+            background-color: #bce0f8;
+            color: #0f3763;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .schedule-table td.has-class small {
+            display: block;
+            margin-top: 2px;
+            font-weight: 600;
+            color: #1b497a;
+            font-size: 11px;
+        }
+
+        form .form-group { margin-bottom: 14px; }
+
+        form label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--subtext-color);
+            margin-bottom: 4px;
+        }
+
+        form input[type="text"],
+        form input[type="email"],
+        form select,
+        form textarea {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 13.5px;
+            outline: none;
+            background-color: var(--bg-body);
+            color: var(--text-color);
+        }
+
+        form input:focus, form select:focus, form textarea:focus {
+            border-color: var(--primary-color);
+        }
+
+        .char-counter {
+            font-size: 11px;
+            color: var(--subtext-color);
+            text-align: right;
+            margin-top: 2px;
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 11.5px;
+            margin-top: 3px;
+            display: none;
+        }
+
+        form button {
+            background-color: var(--primary-color);
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 13.5px;
+            cursor: pointer;
+            transition: background 0.2s;
+            width: 100%;
+        }
+
+        form button:hover { opacity: 0.9; }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            color: var(--subtext-color);
+        }
+
+        @media screen and (max-width: 1024px) {
+            main { grid-template-columns: 1fr; }
+            .header-content { padding-left: 20px; }
+        }
+
+        @media screen and (max-width: 768px) {
+            .hamburger { display: flex; }
+
+            .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--bg-card);
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 15px 24px;
+                gap: 15px;
+                border-bottom: 1px solid var(--border-color);
+                display: none;
+            }
+
+            .nav-links.active { display: flex; }
+
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                justify-content: center;
+            }
+
+            .grid-subcol { grid-template-columns: 1fr; }
+            .gallery-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="#" class="nav-logo">Lê Quang Dương</a>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#gioi-thieu">Giới thiệu</a></li>
+            <li><a href="#so-thich">Sở thích & Kỹ năng</a></li>
+            <li><a href="#du-an">Dự án</a></li>
+            <li><a href="#bo-suu-tap">Bộ sưu tập</a></li>
+            <li><a href="#tkb">Thời khóa biểu</a></li>
+            <li><a href="#lien-he">Liên hệ</a></li>
+        </ul>
+        <div class="nav-controls">
+            <button class="theme-toggle" id="themeToggleBtn">🌙 Tối</button>
+            <div class="hamburger" id="hamburgerBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <header class="bg-car-header">
+        <div class="header-content">
+            <img class="header-avatar" src="anh6.jpg" alt="Lê Quang Dương">
+            <div class="header-text">
+                <h1>Lê Quang Dương</h1>
+                <h3>Khoa Công Nghệ Thông Tin Định Hướng Ứng Dụng - Khoá D25</h3>
+                <p>
+                    Xin chào! Mình là <strong>Dương</strong>, hiện đang là sinh viên <b>năm hai.</b>
+                    Mình có niềm đam mê đặc biệt với <b>thể thao</b> và các dòng <i><b>xe phân khối lớn (PKL) , siêu xe (super car)</b></i>.
+                    Rất vui được kết nối và chia sẻ cùng mọi người!
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="left-column">
+            <section class="card reveal" id="gioi-thieu">
+                <h2>1. Giới thiệu bản thân</h2>
+                <div class="info-list">
+                    <p>Họ và tên: <strong>Lê Quang Dương</strong></p>
+                    <p>Quê quán: <b>Hải Dương</b></p>
+                    <p>Định Hướng: <b>Business Analyst</b></p>
+                    <p><span>Website yêu thích: </span><a href="https://www.tiktok.com" target="_blank">TikTok</a></p>
+                </div>
+                <p style="font-size: 13px; color: var(--subtext-color); margin-top: 10px;">
+                    <b>Mình muốn học hiểu sâu nhiều loại ngôn ngữ khác nhau và trau dồi thêm nhiều kỹ năng mềm để phục vụ cho công việc sau này. Đặc biệt mình muốn tạo ra các sản phẩm mang tính sáng tạo và ứng dụng ngay khi còn là sinh viên trên giảng đường đại học!</b>
+                </p>
+            </section>
+
+            <section class="card reveal" id="so-thich">
+                <h2>2. Sở thích &amp; Kỹ năng</h2>
+                <div class="grid-subcol">
+                    <div>
+                        <h4>Sở thích</h4>
+                        <ul>
+                            <li>Bóng Đá</li>
+                            <li>Nghe nhạc</li>
+                            <li>Chơi game</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Kỹ năng hiện có</h4>
+                        <ol>
+                            <li>Thành thạo cơ bản <strong>Python</strong></li>
+                            <li>Thành thạo cơ bản <strong>HTML</strong></li>
+                            <li>Thành thạo cơ bản <strong>CSS</strong></li>
+                            <li>Chứng chỉ <strong>TOEIC 550</strong></li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px;">
+                    <h4>Công nghệ muốn học thêm</h4>
+                    <ul>
+                        <li>MOS</li>
+                        <li>Photoshop</li>
+                        <li>Lập Trình Nhúng</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- SECTION 3: BỘ SƯU TẬP ÁNH (ĐÃ GHÉP CHUẨN ĐƯỜNG DẪN TỆP) -->
+            <section class="card reveal" id="bo-suu-tap">
+                <h2>3. Bộ sưu tập ảnh của tôi</h2>
+                <div class="gallery-grid">
+                    <!-- 1. Ducati Panigale V4 S -> Xe màu đỏ -->
+                    <div class="gallery-item">
+                        <img src="Bản sao anh4.jpg" alt="Ducati Panigale V4 S">
+                        <div class="caption">Ducati Panigale V4 S</div>
+                    </div>
+                    <!-- 2. Mô hình BMW S1000RR -> Xe mô hình cảnh sát -->
+                    <div class="gallery-item">
+                        <img src="anh2.jpg" alt="Mô hình BMW S1000RR">
+                        <div class="caption">Mô hình BMW S1000RR</div>
+                    </div>
+                    <!-- 3. BMW M4 & S1000RR Concept -> Xe concept trắng -->
+                    <div class="gallery-item">
+                        <img src="anh1.jpg" alt="BMW M4 & S1000RR Concept">
+                        <div class="caption">BMW M4 & S1000RR Concept</div>
+                    </div>
+                    <!-- 4. Bộ sưu tập Xe cảnh sát & PKL -> Người áo đen -->
+                    <div class="gallery-item">
+                        <img src="anh3.jpg" alt="Bộ sưu tập Xe cảnh sát & PKL">
+                        <div class="caption">Bộ sưu tập Xe cảnh sát & PKL</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div class="right-column">
+            <section class="card reveal" id="du-an">
+                <h2>4. Danh sách dự án cá nhân</h2>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-filter="all">Tất cả</button>
+                    <button class="filter-btn" data-filter="web">Web Dev</button>
+                    <button class="filter-btn" data-filter="python">Python</button>
+                    <button class="filter-btn" data-filter="ba">Business Analyst</button>
+                </div>
+
+                <div class="project-list">
+                    <div class="project-card" data-category="web">
+                        <h3>Website Giới Thiệu Bản Thân</h3>
+                        <p>Xây dựng trang cá nhân tương tác bằng HTML, CSS, JavaScript Responsive.</p>
+                        <span class="tag">web</span>
+                    </div>
+                    <div class="project-card" data-category="python">
+                        <h3>Ứng dụng Phân Tích Dữ Liệu Xe</h3>
+                        <p>Sử dụng Python để phân tích các thông số kỹ thuật của các dòng xe Supercar.</p>
+                        <span class="tag">python</span>
+                    </div>
+                    <div class="project-card" data-category="ba">
+                        <h3>Dự án Phân Tích Yêu Cầu Hệ Thống</h3>
+                        <p>Xây dựng biểu đồ Use Case và Wireframe cho quy trình bán hàng trực tuyến.</p>
+                        <span class="tag">ba</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="card reveal" id="tkb">
+                <h2>5. Thời khóa biểu</h2>
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%;">Giờ</th>
+                            <th style="width: 16%;">Thứ 2</th>
+                            <th style="width: 18%;">Thứ 3</th>
+                            <th style="width: 12%;">Thứ 4</th>
+                            <th style="width: 18%;">Thứ 5</th>
+                            <th style="width: 16%;">Thứ 6</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>07:00 - 09:00</td>
+                            <td>-</td>
+                            <td class="has-class">Triết học<br><small>501_HQV</small></td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>09:00 - 10:00</td>
+                            <td>-</td>
+                            <td class="has-class">Triết học<br><small>501_HQV</small></td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>10:00 - 12:00</td>
+                            <td class="has-class">Lập trình web<br><small>HT2_HQV</small></td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td class="has-class">Lập trình hướng đối tượng<br><small>HT2_HQV</small></td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <td>13:00 - 15:00</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td class="has-class">Lập trình hướng đối tượng<br><small>501_HQV</small></td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="card reveal" id="lien-he">
+                <h2>6. Biểu mẫu liên hệ</h2>
+                <form id="contactForm" novalidate>
+                    <div class="form-group">
+                        <label for="fullname">Họ và tên:</label>
+                        <input type="text" id="fullname" name="fullname" placeholder="Nhập họ và tên...">
+                        <div class="error-message" id="nameError">Họ tên phải từ 3 ký tự trở lên.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email liên hệ:</label>
+                        <input type="email" id="email" name="email" placeholder="abc@gmail.com">
+                        <div class="error-message" id="emailError">Email không đúng định dạng.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="topic">Lựa chọn định hướng nghề nghiệp:</label>
+                        <select id="topic" name="topic">
+                            <option value="chon">-- Chọn định hướng nghề nghiệp --</option>
+                            <option value="khoa hoc may tinh">Computer Science</option>
+                            <option value="An toan thong tin">Cybersecurity</option>
+                            <option value="Du lieu">Data Science</option>
+                        </select>
+                        <div class="error-message" id="topicError">Vui lòng chọn một định hướng.</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Nội dung:</label>
+                        <textarea id="message" name="message" rows="3" placeholder="Nhập nội dung tại đây..." maxlength="200"></textarea>
+                        <div class="char-counter"><span id="charCount">0</span>/200 ký tự</div>
+                        <div class="error-message" id="msgError">Nội dung không được để trống.</div>
+                    </div>
+
+                    <button type="submit">Gửi Tin Nhắn</button>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>© <span id="currentYear"></span> Lê Quang Dương. Sáng tạo theo cách bạn muốn @</p>
+    </footer>
+
+    <script>
+        const hamburgerBtn = document.getElementById('hamburgerBtn');
+        const navLinks = document.getElementById('navLinks');
+        hamburgerBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        themeToggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            themeToggleBtn.innerHTML = document.body.classList.contains('dark-mode') ? '☀️ Sáng' : '🌙 Tối';
+        });
+
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        const messageInput = document.getElementById('message');
+        const charCount = document.getElementById('charCount');
+        messageInput.addEventListener('input', () => {
+            charCount.textContent = messageInput.value.length;
+        });
+
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            let isValid = true;
+
+            const fullname = document.getElementById('fullname').value.trim();
+            const nameError = document.getElementById('nameError');
+            if (fullname.length < 3) {
+                nameError.style.display = 'block';
+                isValid = false;
+            } else { nameError.style.display = 'none'; }
+
+            const email = document.getElementById('email').value.trim();
+            const emailError = document.getElementById('emailError');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                emailError.style.display = 'block';
+                isValid = false;
+            } else { emailError.style.display = 'none'; }
+
+            const topic = document.getElementById('topic').value;
+            const topicError = document.getElementById('topicError');
+            if (topic === 'chon') {
+                topicError.style.display = 'block';
+                isValid = false;
+            } else { topicError.style.display = 'none'; }
+
+            const msgError = document.getElementById('msgError');
+            if (messageInput.value.trim() === '') {
+                msgError.style.display = 'block';
+                isValid = false;
+            } else { msgError.style.display = 'none'; }
+
+            if (isValid) {
+                alert('Gửi thông tin liên hệ thành công!');
+                contactForm.reset();
+                charCount.textContent = '0';
+            }
+        });
+
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.getAttribute('data-filter');
+                projectCards.forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        window.addEventListener('scroll', revealOnScroll);
+        function revealOnScroll() {
+            const reveals = document.querySelectorAll('.reveal');
+            const windowHeight = window.innerHeight;
+
+            reveals.forEach(el => {
+                const revealTop = el.getBoundingClientRect().top;
+                if (revealTop < windowHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        }
+        revealOnScroll();
+    </script>
+</body>
+</html>
